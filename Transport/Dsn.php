@@ -25,15 +25,25 @@ final class Dsn
     private $user;
     private $password;
     private $port;
+    private $path;
     private $options;
 
-    public function __construct(string $scheme, string $host, ?string $user = null, ?string $password = null, ?int $port = null, array $options = [])
+    public function __construct(
+        string $scheme,
+        string $host,
+        ?string $user = null,
+        ?string $password = null,
+        ?int $port = null,
+        ?string $path = null,
+        array $options = []
+    )
     {
         $this->scheme = $scheme;
         $this->host = $host;
         $this->user = $user;
         $this->password = $password;
         $this->port = $port;
+        $this->path = $path;
         $this->options = $options;
     }
 
@@ -54,9 +64,10 @@ final class Dsn
         $user = isset($parsedDsn['user']) ? urldecode($parsedDsn['user']) : null;
         $password = isset($parsedDsn['pass']) ? urldecode($parsedDsn['pass']) : null;
         $port = $parsedDsn['port'] ?? null;
+        $path = $parsedDsn['path'] ?? null;
         parse_str($parsedDsn['query'] ?? '', $query);
 
-        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $query);
+        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $path, $query);
     }
 
     public function getScheme(): string
@@ -82,6 +93,11 @@ final class Dsn
     public function getPort(int $default = null): ?int
     {
         return $this->port ?? $default;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
     }
 
     public function getOption(string $key, $default = null)
