@@ -34,8 +34,8 @@ final class Dsn
         ?string $user = null,
         ?string $password = null,
         ?int $port = null,
-        ?string $path = null,
-        array $options = []
+        array $options = [],
+        ?string $path = null
     )
     {
         $this->scheme = $scheme;
@@ -43,8 +43,8 @@ final class Dsn
         $this->user = $user;
         $this->password = $password;
         $this->port = $port;
-        $this->path = $path;
         $this->options = $options;
+        $this->path = $path;
     }
 
     public static function fromString(string $dsn): self
@@ -95,13 +95,13 @@ final class Dsn
         return $this->port ?? $default;
     }
 
-    public function getPath(): ?string
-    {
-        return $this->path;
-    }
-
     public function getOption(string $key, $default = null)
     {
         return $this->options[$key] ?? $default;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
     }
 }
