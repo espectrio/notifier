@@ -25,8 +25,8 @@ final class Dsn
     private $user;
     private $password;
     private $port;
-    private $path;
     private $options;
+    private $path;
 
     public function __construct(
         string $scheme,
@@ -67,7 +67,7 @@ final class Dsn
         $path = $parsedDsn['path'] ?? null;
         parse_str($parsedDsn['query'] ?? '', $query);
 
-        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $path, $query);
+        return new self($parsedDsn['scheme'], $parsedDsn['host'], $user, $password, $port, $query, $path);
     }
 
     public function getScheme(): string
